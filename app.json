@@ -1,0 +1,10 @@
+{
+  "expo": {
+    "name": "climaemtempo",
+    "slug": "climaemtempo",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
