@@ -1,40 +1,18 @@
-# Lista de tarefas (projeto)
-- [ ] Corrigir AppLoading
-- [x] Refatorar código
-- [x] Colocar chamadas a APIs dentro da pasta services
-- [x] Renderização dinâmica: imagem referente à previsão
-- [x] Montar fluxo: sem permissão de acesso à localização
-- [x] Inserir um terceiro item no card de Outras Informações do clima, para preencher o espaço
-- [x] Inserir botão de recarregar os dados climáticos
-- [x] Colocar efeito de loading durante a busca dos dados na API de clima
-- [negado] Corrigir o erro de tipagem nos pacotes de ícones
-- [negado] Fazer com que o conteúdo da tela apareça com mais suavidade
-- [negado] Montar Splash screen
-
-# Lista de tarefas (desafio)
-- [x] Montar uma documentação simples
-- [x] Anexar prints no README do projeto
-- [ ] Validar README em outra máquina
-- [ ] Revisar responsividade
-- [x] Revisar arquitetura
-- [negado] Fazer testes
-
-
 # README
 
 Home
-![Home](https://images2.imgbox.com/e0/72/druOK6jn_o.jpeg)
+![Home](https://images2.imgbox.com/d2/a2/lZW3YfkQ_o.png)
 
 View without location access
-![NonLocalization](https://images2.imgbox.com/61/22/toEpo7Tw_o.jpeg)
+![NonLocalization](https://images2.imgbox.com/f8/97/mW4HdzNL_o.png)
 
 Viewing the weather information search time
-![Search](https://images2.imgbox.com/06/a3/ZaMD5qdY_o.jpeg)
+![Search](https://images2.imgbox.com/b6/7a/js5tx5yA_o.png)
 
 ## About the app
 The purpose of this app is to provide you with the most up-to-date information about the weather in your region.
 
-Using your current location, it searches for information such as: (1) weather summary, (2) current temperature, (3) maximum temperature, (4) minimum temperature, (5) wind speed, (6) humidity, and ( 7) atmospheric pressure at sea level [hPa].
+Using your current location, it searches for information such as: (1) weather summary, (2) current temperature, (3) maximum temperature, (4) minimum temperature, (5) wind speed, (6) humidity, and ( 7) atmospheric pressure [hPa].
 
 ## Versions
 - React Native: 0.68.1

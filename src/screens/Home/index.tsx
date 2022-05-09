@@ -1,96 +1,31 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import * as Location from 'expo-location';
-import { LocationObject } from 'expo-location';
 import { ScrollView, TouchableNativeFeedback, ActivityIndicator, Alert } from 'react-native';
-import {
-    Container,
-    Title,
-    Subtitle,
-    TemperatureContainer,
-    TemperatureLabel,
-    TemperatureValue,
-    TemperatureVariationContainer,
-    TemperatureVariationContent,
-    MaxTemperature,
-    MinTemperature,
-    OtherInfoContainer,
-    OtherInformationContent,
-    OtherInformationText,
-    LocationInformationTextRegular,
-    LocationInformationTextBold,
-    WeatherImage,
-    MaterialIconsLocation,
-    FeatherIconsArrowUp,
-    FeatherIconsArrowDown,
-    FeatherIconsOtherInfo,
-} from './styles';
+import { LocationObject } from 'expo-location';
+import * as Location from 'expo-location';
 
-
-import { loadWeatherInformationRoute } from '../../services/openWeatherApi';
-
-interface WeatherProps {
-	coord: {
-		lon: number;
-		lat: number;
-	},
-	weather: [
-		{
-			id: number;
-			main: string;
-			description: string;
-			icon: string;
-		}
-	],
-	base: string;
-	main: {
-		temp: number;
-		feels_like: number;
-		temp_min: number;
-		temp_max: number;
-		pressure: number;
-		humidity: number;
-		sea_level: number;
-		grnd_level: number;
-	},
-	visibility: number;
-	wind: {
-		speed: number;
-		deg: number;
-		gust: number;
-	},
-	clouds: {
-		all: number;
-	},
-	dt: number;
-	sys: {
-		country: string;
-		sunrise: number;
-		sunset: number;
-	},
-	timezone: number;
-	id: number;
-	name: string;
-	cod: number;
-}
+import { Container, Title, Subtitle, TemperatureContainer, TemperatureLabel, TemperatureValue, TemperatureVariationContainer, TemperatureVariationContent, MaxTemperature, MinTemperature, OtherInfoContainer, OtherInformationContent, OtherInformationText, LocationInformationTextRegular, LocationInformationTextBold, WeatherImage, MaterialIconsLocation, MaterialIconsRefresh, FeatherIconsArrowUp, FeatherIconsArrowDown, FeatherIconsOtherInfo } from './styles';
+import { loadWeatherInformation } from '../../services/openWeatherApi';
+import { WeatherProps } from '../../utils/IWeatherProps';
 
 export function Home(){
     const [loading, setLoading] = useState(false);
     const [weather, setWeather] = useState<WeatherProps>();
     const [location, setLocation] = useState<LocationObject>();
 
-    const loadWeatherInformation = useCallback(async () => {
+    const loadData = useCallback(async () => {
         setLoading(false);
-        let { status } = await Location.requestForegroundPermissionsAsync();
-        if (status !== 'granted') {
-            setLoading(true);
-            return;
-        }
-    
-        let location = await Location.getCurrentPositionAsync({});
-        setLocation(location);
-
         try {
-            const response = await loadWeatherInformationRoute({latitude: location.coords.latitude, longitute: location.coords.longitude});
+            let { status } = await Location.requestForegroundPermissionsAsync();
+            if (status !== 'granted') {
+                setLoading(true);
+                return;
+            }
+        
+            let location = await Location.getCurrentPositionAsync({});
+            setLocation(location);
+
+        
+            const response = await loadWeatherInformation({latitude: location.coords.latitude, longitute: location.coords.longitude});
 
             setWeather(response);
             setLoading(true);
@@ -100,7 +35,7 @@ export function Home(){
     }, []);
 
     useEffect(() => {
-        loadWeatherInformation();
+        loadData();
       }, []);
 
     const renderImage = useCallback(() => {
@@ -143,6 +78,9 @@ export function Home(){
             <Container>
                 <MaterialIconsLocation name="location-off" />
                 <LocationInformationTextRegular>Acesse as <LocationInformationTextBold>Configurações</LocationInformationTextBold> do seu aparelho e conceda permissão de acesso à sua <LocationInformationTextBold>Localização</LocationInformationTextBold> para esse aplicativo.</LocationInformationTextRegular>
+                <TouchableNativeFeedback onPress={loadData}>
+                    <MaterialIconsRefresh name="refresh" />
+                </TouchableNativeFeedback>
             </Container>
         </>
     );
@@ -153,18 +91,18 @@ export function Home(){
                 <MaterialIconsLocation name="location-on" />
                 <Title>{weather?.name}</Title>
                 <Subtitle>{weather?.weather[0].description}</Subtitle>
-                <TouchableNativeFeedback onPress={loadWeatherInformation}>
-                    <MaterialIconsLocation name="refresh" />
+                <TouchableNativeFeedback onPress={loadData}>
+                    <MaterialIconsRefresh name="refresh" />
                 </TouchableNativeFeedback>
                 {renderImage()}
                 <TemperatureContainer>
                     <TemperatureLabel>Temperatura (ºC)</TemperatureLabel>
-                    <TemperatureValue>{weather?.main.temp}º</TemperatureValue>
                     <TemperatureVariationContainer>
                         <TemperatureVariationContent>
                             <FeatherIconsArrowUp name="arrow-up" />
                             <MaxTemperature>{weather?.main.temp_max}º</MaxTemperature>
                         </TemperatureVariationContent>
+                        <TemperatureValue>{weather?.main.temp}º</TemperatureValue>
                         <TemperatureVariationContent>
                             <FeatherIconsArrowDown name="arrow-down" />
                             <MinTemperature>{weather?.main.temp_min}º</MinTemperature>
@@ -181,8 +119,8 @@ export function Home(){
                         <OtherInformationText>{weather?.main.humidity}%</OtherInformationText>
                     </OtherInformationContent>
                     <OtherInformationContent>
-                        <FeatherIconsOtherInfo name="anchor" />
-                        <OtherInformationText>{weather?.main.sea_level}hPa</OtherInformationText>
+                        <FeatherIconsOtherInfo name="layers" />
+                        <OtherInformationText>{weather?.main.pressure}hPa</OtherInformationText>
                     </OtherInformationContent>
                 </OtherInfoContainer>
             </Container>

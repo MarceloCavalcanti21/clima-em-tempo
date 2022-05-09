@@ -1,6 +1,7 @@
-import styled from 'styled-components/native';
+import styled, { css } from 'styled-components/native';
 import { MaterialIcons, Feather } from '@expo/vector-icons';
 import { RFValue } from 'react-native-responsive-fontsize';
+import { Platform } from 'react-native';
 
 export const Container = styled.View`
     flex: 1;
@@ -22,7 +23,6 @@ export const Subtitle = styled.Text`
 `;
 
 export const TemperatureContainer = styled.View`
-    width: ${RFValue(160)}px;
     align-items: center;
 `;
 
@@ -37,14 +37,16 @@ export const TemperatureValue = styled.Text`
     font-family: ${({theme}) => theme.fonts.bold};
     color: ${({ theme }) => theme.colors.primary};
     font-size: ${RFValue(82)}px;
-    margin-top: ${RFValue(-30)}px;
+    margin: 0 ${RFValue(30)}px;
 `;
 
 export const TemperatureVariationContainer = styled.View`
-    width: 100%;
     flex-direction: row;
-    justify-content: space-between;
-    margin-top: ${RFValue(-20)}px;
+
+    ${Platform.OS === 'android' &&
+        css`
+          margin-top: ${RFValue(-20)}px;
+    `}
 `;
 
 export const TemperatureVariationContent = styled.View`
@@ -108,6 +110,12 @@ export const WeatherImage = styled.Image`
 export const MaterialIconsLocation = styled(MaterialIcons)`
     color: ${({ theme }) => theme.colors.secondary};
     font-size: ${RFValue(32)}px;
+`;
+
+export const MaterialIconsRefresh = styled(MaterialIcons)`
+    color: #FFAB0B;
+    font-size: ${RFValue(32)}px;
+    margin-top: ${RFValue(10)}px;
 `;
 
 export const FeatherIconsArrowUp = styled(Feather)`
