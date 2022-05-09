@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { ScrollView, TouchableNativeFeedback, ActivityIndicator, Alert } from 'react-native';
+import { ScrollView, TouchableNativeFeedback, ActivityIndicator, Alert, View } from 'react-native';
 import { LocationObject } from 'expo-location';
 import * as Location from 'expo-location';
 
@@ -7,13 +7,29 @@ import { Container, Title, Subtitle, TemperatureContainer, TemperatureLabel, Tem
 import { loadWeatherInformation } from '../../services/openWeatherApi';
 import { WeatherProps } from '../../utils/IWeatherProps';
 
+import Animated, { useSharedValue, useAnimatedStyle, withTiming } from 'react-native-reanimated';
+
 export function Home(){
     const [loading, setLoading] = useState(false);
     const [weather, setWeather] = useState<WeatherProps>();
     const [location, setLocation] = useState<LocationObject>();
 
+    const animation = useSharedValue(5000);
+
+    const animatedStyles = useAnimatedStyle(() => {
+        return {
+            transform: [
+                
+                { 
+                    translateX: withTiming(animation.value)
+                }
+            ]
+        }
+    });
+
     const loadData = useCallback(async () => {
         setLoading(false);
+        animation.value = 500;
         try {
             let { status } = await Location.requestForegroundPermissionsAsync();
             if (status !== 'granted') {
@@ -29,10 +45,11 @@ export function Home(){
 
             setWeather(response);
             setLoading(true);
+            animation.value = 0;
         } catch (error) {
             Alert.alert('ERRO', 'Ocorreu um erro ao tentar buscar os dados do clima. Tente novamente mais tarde.');
         }
-    }, []);
+    }, [animation]);
 
     useEffect(() => {
         loadData();
@@ -87,6 +104,7 @@ export function Home(){
 
     return (
         <ScrollView>
+            <Animated.View style={animatedStyles}>
             <Container>
                 <MaterialIconsLocation name="location-on" />
                 <Title>{weather?.name}</Title>
@@ -124,6 +142,7 @@ export function Home(){
                     </OtherInformationContent>
                 </OtherInfoContainer>
             </Container>
+            </Animated.View>
         </ScrollView>
     );
 }
