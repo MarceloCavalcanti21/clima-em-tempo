@@ -1,13 +1,12 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { ScrollView, TouchableNativeFeedback, ActivityIndicator, Alert, View } from 'react-native';
 import { LocationObject } from 'expo-location';
+import Animated, { useSharedValue, useAnimatedStyle, withTiming } from 'react-native-reanimated';
 import * as Location from 'expo-location';
 
 import { Container, Title, Subtitle, TemperatureContainer, TemperatureLabel, TemperatureValue, TemperatureVariationContainer, TemperatureVariationContent, MaxTemperature, MinTemperature, OtherInfoContainer, OtherInformationContent, OtherInformationText, LocationInformationTextRegular, LocationInformationTextBold, WeatherImage, MaterialIconsLocation, MaterialIconsRefresh, FeatherIconsArrowUp, FeatherIconsArrowDown, FeatherIconsOtherInfo } from './styles';
 import { loadWeatherInformation } from '../../services/openWeatherApi';
 import { WeatherProps } from '../../utils/IWeatherProps';
-
-import Animated, { useSharedValue, useAnimatedStyle, withTiming } from 'react-native-reanimated';
 
 export function Home(){
     const [loading, setLoading] = useState(false);
@@ -18,12 +17,7 @@ export function Home(){
 
     const animatedStyles = useAnimatedStyle(() => {
         return {
-            transform: [
-                
-                { 
-                    translateX: withTiming(animation.value)
-                }
-            ]
+            transform: [{  translateX: withTiming(animation.value) }]
         }
     });
 
@@ -32,6 +26,7 @@ export function Home(){
         animation.value = 500;
         try {
             let { status } = await Location.requestForegroundPermissionsAsync();
+
             if (status !== 'granted') {
                 setLoading(true);
                 return;
@@ -39,7 +34,6 @@ export function Home(){
         
             let location = await Location.getCurrentPositionAsync({});
             setLocation(location);
-
         
             const response = await loadWeatherInformation({latitude: location.coords.latitude, longitute: location.coords.longitude});
 
