@@ -1,12 +1,12 @@
 # README
 
-Home
+### Home
 ![Home](https://images2.imgbox.com/d2/a2/lZW3YfkQ_o.png)
 
-View without location access
+### View without location access
 ![NonLocalization](https://images2.imgbox.com/f8/97/mW4HdzNL_o.png)
 
-Viewing the weather information search time
+### Viewing the weather information search time
 ![Search](https://images2.imgbox.com/b6/7a/js5tx5yA_o.png)
 
 ## About the app

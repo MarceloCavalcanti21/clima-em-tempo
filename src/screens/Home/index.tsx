@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { ScrollView, TouchableNativeFeedback, ActivityIndicator, Alert, View } from 'react-native';
+import { ScrollView, TouchableNativeFeedback, ActivityIndicator, Alert } from 'react-native';
 import { LocationObject } from 'expo-location';
 import Animated, { useSharedValue, useAnimatedStyle, withTiming } from 'react-native-reanimated';
 import * as Location from 'expo-location';

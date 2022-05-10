@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { ThemeProvider } from 'styled-components';
-import * as SplashScreen from 'expo-splash-screen';
 import {useFonts, Archivo_400Regular, Archivo_700Bold } from '@expo-google-fonts/archivo';
+import * as SplashScreen from 'expo-splash-screen';
 
 import theme from './src/global/styles/theme';
 import { Home } from './src/screens/Home';
